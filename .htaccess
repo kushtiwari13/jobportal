@@ -1,0 +1,16 @@
+RewriteEngine On
+
+# Force trailing slash off for root links
+DirectorySlash Off
+
+# Route /job/{id}/{slug} to job.php?id={id}
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^job/(\d+)(?:/.*)?$ job.php?id=$1 [L,QSA]
+
+# Fallback to index.php for unknown php-less requests (optional)
+#RewriteRule ^$ index.php [L]
+
+php_value session.cookie_httponly 1
+php_value session.use_only_cookies 1
+

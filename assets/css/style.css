@@ -1,0 +1,22 @@
+:root{
+  --primary:#2563EB; /* Blue-600 */
+  --accent:#10B981;  /* Green-500 */
+  --bg:#F9FAFB;      /* Light gray */
+  --text:#111827;    /* Heading */
+  --body:#374151;    /* Body */
+}
+html,body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";color:var(--body);}
+.navbar-brand{letter-spacing:.2px}
+.btn-primary{background-color:var(--primary);border-color:var(--primary)}
+.btn-primary:hover{filter:brightness(0.95)}
+.btn-accent{background-color:var(--accent);border-color:var(--accent)}
+.btn-accent:hover{filter:brightness(0.95)}
+.form-control:focus{box-shadow:none;border-color:var(--primary)}
+.card{border:1px solid #eee}
+.latest-jobs a:hover .text-dark{color:var(--primary)!important}
+.rounded-pill{border-radius:50rem!important}
+.job-card-title{color:var(--text)}
+.badge-skill{background:#eef2ff;color:#3730a3;border:1px solid #e0e7ff}
+.text-muted-2{color:#6b7280}
+.pagination .page-link{color:var(--primary)}
+.alert.hide{opacity:0;transition:opacity .3s ease}
