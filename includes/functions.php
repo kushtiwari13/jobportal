@@ -107,7 +107,19 @@ function format_job_description(?string $text): string {
         }
 
         if (preg_match('/^([A-Za-z][^:]{0,80}):\s*(.+)$/', $line, $m)) {
-            $blocks[] = ['definition', ['label' => $m[1], 'value' => $m[2]]];
+            // Avoid duplicating top-level fields (title, location, etc.) inside the description
+            $skipLabels = [
+                'title','job title','role title','position','job position',
+                'location','job location','experience','salary','ctc','compensation',
+                'employment type','job type','notice period','company','company name',
+                'role category','qualification','stipend','service bond'
+            ];
+            $labelKey = mb_strtolower(trim($m[1]));
+            if (in_array($labelKey, $skipLabels, true)) {
+                $blocks[] = ['paragraph', $line];
+            } else {
+                $blocks[] = ['definition', ['label' => $m[1], 'value' => $m[2]]];
+            }
         } else {
             $blocks[] = ['paragraph', $line];
         }

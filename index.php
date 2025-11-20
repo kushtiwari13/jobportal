@@ -63,7 +63,6 @@ $jobs = search_jobs(implode(' AND ', $where), $params, $limit, $offset);
                   <span class="meta-item"><?php echo e($job['experience']); ?></span>
                 <?php endif; ?>
                 <span class="meta-divider">•</span>
-                <span class="meta-item"><?php echo date('M j', strtotime($job['created_at'])); ?></span>
               </div>
               <h2 class="post-title"><a href="<?php echo e(base_url()); ?>job/<?php echo (int)$job['id']; ?>/<?php echo e(slugify($job['title'])); ?>"><?php echo e($job['title']); ?></a></h2>
               <p class="post-snippet"><?php echo e(job_snippet($job['description'], 200)); ?></p>
