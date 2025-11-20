@@ -1,0 +1,29 @@
+:root{
+  /* Core palette */
+  --color-primary: #2563eb; /* Buttons, links, key accents */
+  --color-primary-strong: #1d4ed8; /* Hovered button background */
+  --color-ink: #0f172a; /* Headlines and main body text */
+  --color-muted: #475569; /* Secondary text + helper labels */
+  --color-surface: #ffffff; /* Cards, panels, text on dark fills */
+  --color-border: #e2e8f0; /* Dividers, outlines, subtle backgrounds */
+  --color-success: #22c55e; /* Positive/confirmation states */
+  --color-alert: #dc2626; /* Errors, destructive notices */
+
+  /* Usage-specific tokens */
+  --color-on-primary: var(--color-surface); /* Text/icons placed on solid brand fills */
+  --bg-page: #f1f5f9; /* Default page background */
+  --bg-muted: #f8fafc; /* Inputs, chips, soft accents */
+  --bg-chip: #f8fafc; /* Tag + chip fill */
+  --bg-stream: #f8fbff; /* Highlighted stream column */
+  --bg-thumb: #eef1f6; /* Image placeholder fill */
+  --bg-footer: #e2e8f0; /* Footer ribbon background */
+
+  --shadow-panel: 0 6px 20px rgba(15,23,42,0.04); /* Filter/stream panel depth */
+  --shadow-card: 0 10px 30px rgba(15,23,42,0.06); /* Job cards */
+  --shadow-story: 0 6px 18px rgba(15,23,42,0.05); /* Detail article + media */
+
+  --notice-success-border: rgba(34,197,94,.3); /* Success notice outline */
+  --notice-alert-border: rgba(248,113,113,.3); /* Error notice outline */
+
+  --link-footer: #334155; /* Footer links */
+}
