@@ -1,29 +1,29 @@
 :root{
   /* Core palette */
-  --color-primary: #2563eb; /* Buttons, links, key accents */
-  --color-primary-strong: #1d4ed8; /* Hovered button background */
-  --color-ink: #0f172a; /* Headlines and main body text */
-  --color-muted: #475569; /* Secondary text + helper labels */
-  --color-surface: #ffffff; /* Cards, panels, text on dark fills */
-  --color-border: #e2e8f0; /* Dividers, outlines, subtle backgrounds */
-  --color-success: #22c55e; /* Positive/confirmation states */
-  --color-alert: #dc2626; /* Errors, destructive notices */
+  --color-primary:#3a6b57; /* Buttons, links, key accents */
+  --color-primary-strong:#2f5646; /* Hovered button background */
+  --color-ink:#0c1520; /* Headlines and main body text */
+  --color-muted:#4a5563; /* Secondary text + helper labels */
+  --color-surface:#fcfdfc; /* Cards, panels, text on dark fills */
+  --color-border:#e2e6e3; /* Dividers, outlines, subtle backgrounds */
+  --color-success:#2f9f6a; /* Positive/confirmation states */
+  --color-alert:#c93535; /* Errors, destructive notices */
 
   /* Usage-specific tokens */
-  --color-on-primary: var(--color-surface); /* Text/icons placed on solid brand fills */
-  --bg-page: #f1f5f9; /* Default page background */
-  --bg-muted: #f8fafc; /* Inputs, chips, soft accents */
-  --bg-chip: #f8fafc; /* Tag + chip fill */
-  --bg-stream: #f8fbff; /* Highlighted stream column */
-  --bg-thumb: #eef1f6; /* Image placeholder fill */
-  --bg-footer: #e2e8f0; /* Footer ribbon background */
+  --color-on-primary:#f5fbf7; /* Text/icons placed on solid brand fills */
+  --bg-page:#f2f5f2; /* Default page background */
+  --bg-muted:#eaeeea; /* Inputs, chips, soft accents */
+  --bg-chip:#e4e9e4; /* Tag + chip fill */
+  --bg-stream:#edf5ef; /* Highlighted stream column */
+  --bg-thumb:#dfe6e1; /* Image placeholder fill */
+  --bg-footer:#dfe4e0; /* Footer ribbon background */
 
-  --shadow-panel: 0 6px 20px rgba(15,23,42,0.04); /* Filter/stream panel depth */
-  --shadow-card: 0 10px 30px rgba(15,23,42,0.06); /* Job cards */
-  --shadow-story: 0 6px 18px rgba(15,23,42,0.05); /* Detail article + media */
+  --shadow-panel:0 6px 18px rgba(12,21,32,0.05); /* Filter/stream panel depth */
+  --shadow-card:0 10px 24px rgba(12,21,32,0.06); /* Job cards */
+  --shadow-story:0 6px 16px rgba(12,21,32,0.05); /* Detail article + media */
 
-  --notice-success-border: rgba(34,197,94,.3); /* Success notice outline */
-  --notice-alert-border: rgba(248,113,113,.3); /* Error notice outline */
+  --notice-success-border:rgba(47,159,106,.28); /* Success notice outline */
+  --notice-alert-border:rgba(201,53,53,.25); /* Error notice outline */
 
-  --link-footer: #334155; /* Footer links */
+  --link-footer:#365144; /* Footer links */
 }
