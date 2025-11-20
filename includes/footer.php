@@ -1,13 +1,14 @@
     </div>
   </main>
-  <footer class="bg-white border-top py-4">
-    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center" style="max-width: 1200px;">
-      <div class="text-muted">&copy; <?php echo date('Y'); ?> <?php echo e(app_name()); ?>. All rights reserved.</div>
-      <div class="mt-2 mt-md-0">
-        <a class="text-decoration-none me-3" href="https://wa.me/your-number" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp fa-lg text-success"></i></a>
-        <a class="text-decoration-none me-3" href="https://t.me/your-channel" target="_blank" rel="noopener"><i class="fa-brands fa-telegram fa-lg text-primary"></i></a>
-        <a class="text-decoration-none" href="https://instagram.com/yourpage" target="_blank" rel="noopener"><i class="fa-brands fa-instagram fa-lg text-danger"></i></a>
+  <footer>
+    <div class="page-container text-center">
+      <div>
+        <a class="me-3" href="<?php echo e(base_url()); ?>about.php">About</a>
+        <a class="me-3" href="<?php echo e(base_url()); ?>contact.php">Contact</a>
+        <a class="me-3" href="<?php echo e(base_url()); ?>privacy.php">Privacy Policy</a>
+        <a href="<?php echo e(base_url()); ?>terms.php">Terms</a>
       </div>
+      <div>&copy; <?php echo date('Y'); ?> <?php echo e(app_name()); ?>. All rights reserved.</div>
     </div>
   </footer>
 

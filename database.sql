@@ -4,10 +4,11 @@ CREATE TABLE IF NOT EXISTS jobs (
   title VARCHAR(255) NOT NULL,
   company VARCHAR(255),
   location VARCHAR(100),
+  salary VARCHAR(100),
   experience VARCHAR(50),
-  skills VARCHAR(255),
   description TEXT,
   apply_link VARCHAR(255),
+  image_path VARCHAR(255),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   expires_at DATE,
   is_active TINYINT(1) DEFAULT 1,
@@ -30,4 +31,3 @@ CREATE TABLE IF NOT EXISTS reports (
 
 -- Create initial admin (replace PASSWORD_HASH with output of PHP password_hash)
 -- INSERT INTO admin_users (email, password_hash) VALUES ('admin@example.com', 'PASSWORD_HASH');
-

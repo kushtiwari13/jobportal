@@ -12,20 +12,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 ?>
-<div class="row justify-content-center">
-  <div class="col-lg-6">
-    <div class="card"><div class="card-body">
-      <h4 class="mb-3">Confirm Delete</h4>
-      <p>Are you sure you want to delete job #<?php echo $id; ?>? This will deactivate the job (soft delete).</p>
-      <form method="post">
-        <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
-        <button class="btn btn-danger">Yes, Delete</button>
-        <a class="btn btn-outline-secondary" href="<?php echo e(base_url()); ?>admin/">Cancel</a>
-      </form>
-    </div></div>
+<div class="panel">
+  <div class="panel-head">
+    <h4 class="m-0">Confirm delete</h4>
   </div>
+  <p>Delete job #<?php echo $id; ?>? This will deactivate the job (soft delete).</p>
+  <form method="post" class="d-flex gap-2">
+    <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
+    <button class="btn btn-danger">Yes, delete</button>
+    <a class="btn btn-outline-secondary" href="<?php echo e(base_url()); ?>admin/">Cancel</a>
+  </form>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</main>
-</body>
-</html>
+<?php require __DIR__ . '/includes/footer.php';

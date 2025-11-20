@@ -6,92 +6,89 @@ require __DIR__ . '/includes/header.php';
 // Build search
 $q = trim($_GET['q'] ?? '');
 $loc = trim($_GET['location'] ?? '');
-$skills = trim($_GET['skills'] ?? '');
 $page = max(1, (int)($_GET['page'] ?? 1));
 
 $where = [];
 $params = [];
-if ($q !== '') { $where[] = '(title LIKE :q OR company LIKE :q)'; $params[':q'] = "%$q%"; }
+if ($q !== '') {
+    $terms = array_values(array_filter(preg_split('/\s+/', $q)));
+    foreach ($terms as $i => $term) {
+        $placeholders = [];
+        foreach (['title','company','location','experience','description'] as $field) {
+            $ph = ":{$field}{$i}";
+            $placeholders[] = "$field LIKE $ph";
+            $params[$ph] = "%$term%";
+        }
+        $where[] = '(' . implode(' OR ', $placeholders) . ')';
+    }
+}
 if ($loc !== '') { $where[] = 'location LIKE :loc'; $params[':loc'] = "%$loc%"; }
-if ($skills !== '') { $where[] = 'skills LIKE :skills'; $params[':skills'] = "%$skills%"; }
 
 $total = count_jobs(implode(' AND ', $where), $params);
 [$limit, $offset, $pages, $page] = paginate(10, $total, $page);
 $jobs = search_jobs(implode(' AND ', $where), $params, $limit, $offset);
 ?>
 
-<section class="pb-3">
-  <div class="row g-4">
-    <div class="col-lg-8">
-      <div class="card shadow-sm rounded-3 mb-3">
-        <div class="card-body">
-          <form class="row g-2 align-items-end" method="get" action="<?php echo e(base_url()); ?>">
-            <div class="col-md-5">
-              <label class="form-label">Job title or company</label>
-              <input type="text" class="form-control" name="q" value="<?php echo e($q); ?>" placeholder="e.g. PHP Developer">
+<section class="lead-block">
+  <div class="eyebrow">Fresh IT openings</div>
+  <h1 class="page-title">Fast, newspaper-style feed of active roles</h1>
+  <p class="page-subhead">Short, scannable listings built for speed and clean readability.</p>
+  <form class="filter-bar auto-search" method="get" action="<?php echo e(base_url()); ?>#jobs">
+    <input type="text" name="q" value="" placeholder="Keyword, skill, or company">
+    <input type="text" name="location" value="<?php echo e($loc); ?>" placeholder="Location or Remote">
+    <button type="submit">Update feed</button>
+  </form>
+</section>
+
+<section class="layout-grid" id="jobs">
+  <div class="stream-column">
+    <?php if (!$jobs): ?>
+      <div class="empty-state">No jobs found. Try a broader keyword or remove filters.</div>
+    <?php else: ?>
+      <div class="post-stream">
+        <?php foreach ($jobs as $job): ?>
+          <article class="post-card">
+            <a class="post-thumb" href="<?php echo e(base_url()); ?>job/<?php echo (int)$job['id']; ?>/<?php echo e(slugify($job['title'])); ?>">
+              <img src="<?php echo e(job_image_url($job)); ?>" alt="<?php echo e($job['title']); ?>">
+            </a>
+            <div class="post-body">
+              <div class="post-meta-top">
+                <span class="meta-item"><?php echo e($job['company']); ?></span>
+                <span class="meta-divider">•</span>
+                <span class="meta-item"><?php echo e($job['location'] ?: 'Remote'); ?></span>
+                <span class="meta-divider">•</span>
+                <span class="meta-item"><?php echo e($job['salary'] ?: 'Not disclosed'); ?></span>
+                <?php if (!empty($job['experience'])): ?>
+                  <span class="meta-divider">•</span>
+                  <span class="meta-item"><?php echo e($job['experience']); ?></span>
+                <?php endif; ?>
+                <span class="meta-divider">•</span>
+                <span class="meta-item"><?php echo date('M j', strtotime($job['created_at'])); ?></span>
+              </div>
+              <h2 class="post-title"><a href="<?php echo e(base_url()); ?>job/<?php echo (int)$job['id']; ?>/<?php echo e(slugify($job['title'])); ?>"><?php echo e($job['title']); ?></a></h2>
+              <p class="post-snippet"><?php echo e(job_snippet($job['description'], 200)); ?></p>
+              <div class="post-actions">
+                <a class="btn-link-ghost" href="<?php echo e(base_url()); ?>job/<?php echo (int)$job['id']; ?>/<?php echo e(slugify($job['title'])); ?>">Read post</a>
+                <?php if (!empty($job['apply_link']) && valid_url($job['apply_link'])): ?>
+                  <a class="btn-link-primary" href="<?php echo e($job['apply_link']); ?>" target="_blank" rel="noopener">Apply</a>
+                <?php endif; ?>
+              </div>
             </div>
-            <div class="col-md-3">
-              <label class="form-label">Location</label>
-              <input type="text" class="form-control" name="location" value="<?php echo e($loc); ?>" placeholder="City or Remote">
-            </div>
-            <div class="col-md-3">
-              <label class="form-label">Skills</label>
-              <input type="text" class="form-control" name="skills" value="<?php echo e($skills); ?>" placeholder="e.g. MySQL, Laravel">
-            </div>
-            <div class="col-md-1 d-grid">
-              <button class="btn btn-primary rounded-pill" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-            </div>
-          </form>
-        </div>
+          </article>
+        <?php endforeach; ?>
       </div>
 
-      <?php if (!$jobs): ?>
-        <div class="text-center text-muted py-5">No jobs found.</div>
-      <?php else: ?>
-        <?php foreach ($jobs as $job): ?>
-          <div class="card shadow-sm rounded-3 mb-3">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-start">
-                <div>
-                  <h5 class="job-card-title mb-1"><a class="text-decoration-none text-dark" href="<?php echo e(base_url()); ?>job/<?php echo (int)$job['id']; ?>/<?php echo e(slugify($job['title'])); ?>"><?php echo e($job['title']); ?></a></h5>
-                  <div class="text-muted-2 small mb-2"><?php echo e($job['company']); ?> • <?php echo e($job['location']); ?> • <?php echo date('M j, Y', strtotime($job['created_at'])); ?></div>
-                  <?php if (!empty($job['skills'])): ?>
-                    <?php foreach (explode(',', $job['skills']) as $sk): $sk = trim($sk); if (!$sk) continue; ?>
-                      <span class="badge badge-skill me-1 mb-1"><?php echo e($sk); ?></span>
-                    <?php endforeach; ?>
-                  <?php endif; ?>
-                </div>
-                <div>
-                  <a class="btn btn-sm btn-primary rounded-pill" href="<?php echo e(base_url()); ?>job/<?php echo (int)$job['id']; ?>/<?php echo e(slugify($job['title'])); ?>">View</a>
-                </div>
-              </div>
-              <p class="mt-3 mb-0 text-muted"><?php echo e($job['snippet']); ?>...</p>
-            </div>
-          </div>
-        <?php endforeach; ?>
-
-        <nav aria-label="Job pagination">
-          <ul class="pagination">
-            <?php $qs = $_GET; ?>
-            <li class="page-item <?php echo $page<=1?'disabled':''; ?>">
-              <?php $qs['page']=$page-1; ?>
-              <a class="page-link" href="?<?php echo http_build_query($qs); ?>">Prev</a>
-            </li>
-            <?php for ($i=1;$i<=$pages;$i++): $qs['page']=$i; ?>
-              <li class="page-item <?php echo $i===$page?'active':''; ?>"><a class="page-link" href="?<?php echo http_build_query($qs); ?>"><?php echo $i; ?></a></li>
-            <?php endfor; ?>
-            <li class="page-item <?php echo $page>=$pages?'disabled':''; ?>">
-              <?php $qs['page']=$page+1; ?>
-              <a class="page-link" href="?<?php echo http_build_query($qs); ?>">Next</a>
-            </li>
-          </ul>
-        </nav>
-      <?php endif; ?>
-    </div>
-    <div class="col-lg-4">
-      <?php include __DIR__ . '/includes/sidebar.php'; ?>
-    </div>
+      <nav class="pager" aria-label="Job pagination">
+        <?php $qs = $_GET; ?>
+        <a class="pager-link <?php echo $page<=1?'disabled':''; ?>" href="<?php $qs['page']=$page-1; echo '?' . http_build_query($qs); ?>">Prev</a>
+        <span class="pager-status"><?php echo $page; ?> / <?php echo $pages; ?></span>
+        <a class="pager-link <?php echo $page>=$pages?'disabled':''; ?>" href="<?php $qs['page']=$page+1; echo '?' . http_build_query($qs); ?>">Next</a>
+      </nav>
+    <?php endif; ?>
   </div>
+  <aside class="sidebar">
+    <?php include __DIR__ . '/includes/sidebar.php'; ?>
+  </aside>
 </section>
 
 <?php require __DIR__ . '/includes/footer.php';

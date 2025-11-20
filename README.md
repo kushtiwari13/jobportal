@@ -50,8 +50,19 @@ See source tree; key directories:
 - Email notifications: `post-job.php` calls `mail()`; configure SMTP on hosting for delivery.
 - Soft delete: `delete-job.php` marks `is_active = 0`.
 - Expired jobs auto-hidden on public listing.
+- Automated importer: not included (external fetching currently disabled).
+- Job images: upload an image in the admin form; it’s stored locally in `/uploads/` with a fallback placeholder if none provided.
 
 ## License
 
 For personal and commercial use. No attribution required.
 
+## Automated external job fetching
+External importer is disabled. Use the admin panel to add jobs manually.
+
+## Upgrading existing database (image column)
+- New installs: use `database.sql` (column `image_path`).
+- Existing DBs: migrate by renaming the old column:
+```sql
+ALTER TABLE jobs CHANGE image_url image_path VARCHAR(255);
+```
